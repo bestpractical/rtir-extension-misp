@@ -1,3 +1,8 @@
+<&|/Widgets/TitleBox,
+    title => loc("MISP"),
+    class => "fullwidth",
+    bodyclass => "",
+&>
 % $$FoundFeedRef = 1;
 % my $i = 1;
 <div class="table-responsive">
@@ -16,6 +21,7 @@
     </table>
 </div>
 
+</&>
 <%init>
 my ($ok, $msg) = $FeedsObj->InitMISP();
 
