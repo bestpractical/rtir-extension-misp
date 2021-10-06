@@ -68,6 +68,7 @@ instance you want RTIR to integrate with.
                 URI         => 'https://mymisp.example.com',  # Change to your MISP
                 Description => 'My MISP Feed',
                 DaysToFetch => 5,  # For the feed page, how many days back to fetch
+                ApiKeyAuth  => 'API SECRET KEY',  # Change to your real key
             },
         ],
     );
@@ -132,8 +133,11 @@ This is free software, licensed under:
 
 sub GetUserAgent {
     my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
+    my $misp_config = RT->Config->Get('ExternalFeeds')->{MISP};
+    RT->Logger->error("Unable to load MISP configuration") unless $misp_config;
+
     my $default_headers = HTTP::Headers->new(
-        'Authorization' => '',  # Get this from config, add here for now
+        'Authorization' => $misp_config->[0]{ApiKeyAuth},
         'Accept'        => 'application/json',
         'Content-Type'  => 'application/json',
     );

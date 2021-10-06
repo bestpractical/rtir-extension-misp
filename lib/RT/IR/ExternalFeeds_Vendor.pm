@@ -41,7 +41,7 @@ sub fetch_misp_feed {
 
     my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
     my $default_headers = HTTP::Headers->new(
-        'Authorization' => '',  # REST key goes here, move to configuration
+        'Authorization' => $self->{misp_feeds}{$name}{ApiKeyAuth},
         'Accept'        => 'application/json',
         'Content-Type'  => 'application/json',
     );
