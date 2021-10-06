@@ -39,6 +39,16 @@ Add this line:
 
     Plugin('RTIR::Extension::MISP');
 
+=item C<make initdb>
+
+Only run this the first time you install this module.
+
+If you run this twice, you will end up with duplicate data
+in your database.
+
+If you are upgrading this module, check for upgrading instructions
+in case changes need to be made to your database.
+
 =item Clear your mason cache
 
     rm -rf /opt/rt4/var/mason_data/obj

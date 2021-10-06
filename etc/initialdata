@@ -1,0 +1,17 @@
+use strict;
+use warnings;
+
+our @CustomFields = (
+    {   Name        => 'MISP Event ID',
+        Type        => 'FreeformSingle',
+        Disabled    => 0,
+        Queue       => 'Incidents',
+    },
+    {   Name        => 'MISP Event UUID',
+        Type        => 'FreeformSingle',
+        Disabled    => 0,
+        Queue       => 'Incidents',
+    },
+);
+
+1;
