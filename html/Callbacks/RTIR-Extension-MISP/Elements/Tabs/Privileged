@@ -14,9 +14,17 @@ if ( $request_path =~ m{RTIR/Incident/Display\.html$} ) {
 
     # my $actions_tab = PageMenu()->child( actions => title => loc('Actions'), sort_order  => 95 );
 
-    PageMenu()->child('actions')->child(
-        update_misp_event => title => loc('Update MISP Event'),
-        path  => RT::IR->HREFTo("Incident/Display.html?id=$id&UpdateMISPEvent=1", IncludeWebPath => 0),
-    );
+    if ( $ticket->FirstCustomFieldValue('MISP Event ID') ) {
+        PageMenu()->child('actions')->child(
+            update_misp_event => title => loc('Update MISP Event'),
+            path  => RT::IR->HREFTo("Incident/Display.html?id=$id&UpdateMISPEvent=1", IncludeWebPath => 0),
+        );
+    }
+    else {
+        PageMenu()->child('actions')->child(
+            create_misp_event => title => loc('Create MISP Event'),
+            path  => RT::IR->HREFTo("Incident/Display.html?id=$id&CreateMISPEvent=1", IncludeWebPath => 0),
+        );
+    }
 }
 </%init>

@@ -180,6 +180,13 @@ sub AddRTIRObjectToMISP {
     my $url = GetMISPBaseURL();
 
     my $event_id = $ticket->FirstCustomFieldValue('MISP Event ID');
+    if ( !$event_id ) {
+        ( $event_id, my $msg ) = CreateMISPEvent($ticket);
+        if ( !$event_id ) {
+            RT->Logger->error("Couldn't load and create event: $msg");
+            return ( 0, 'MISP event update failed' );
+        }
+    }
 
     # This is base object information defined in MISP
     # See: https://github.com/MISP/misp-objects/blob/main/objects/rtir/definition.json
@@ -294,6 +301,36 @@ sub AddRTIRObjectToMISP {
     }
 
     return (1, 'MISP event updated');
+}
+
+sub CreateMISPEvent {
+    my $ticket = shift;
+
+    my $ua = GetUserAgent();
+    my $url = GetMISPBaseURL();
+    my $json = encode_json(
+        {
+            info => $ticket->Subject,
+        }
+    );
+    my $response = $ua->post($url . "/events/add", Content => $json);
+    if ( $response->is_success ) {
+        my $content = decode_json( $response->decoded_content );
+        my ( $ret, $msg ) = $ticket->AddCustomFieldValue( Field => 'MISP Event ID', Value => $content->{Event}{id} );
+        if ( !$ret ) {
+            RT->Logger->error("Unable to update MISP Event ID to $content->{Event}{id}: $msg");
+        }
+
+        ( $ret, $msg ) = $ticket->AddCustomFieldValue( Field => 'MISP Event UUID', Value => $content->{Event}{uuid} );
+        if ( !$ret ) {
+            RT->Logger->error("Unable to update MISP Event UUID to $content->{Event}{uuid}: $msg");
+        }
+        return $ticket->FirstCustomFieldValue('MISP Event ID');
+    }
+    else {
+        RT->Logger->error('Unable to create event: ' . $response->status_line() . $response->decoded_content());
+        return (0, 'MISP event create failed');
+    }
 }
 
 1;

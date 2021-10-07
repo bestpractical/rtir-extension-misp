@@ -1,12 +1,5 @@
 <%init>
-if ( $ARGSRef->{UpdateMISPEvent} ) {
-    my $event_id = $Ticket->FirstCustomFieldValue('MISP Event ID');
-
-    if ( not $event_id ) {
-        push @$Actions, 'No MISP Event ID found, nothing to update';
-        return;
-    }
-
+if ( $ARGSRef->{CreateMISPEvent} || $ARGSRef->{UpdateMISPEvent} ) {
     my ($ok, $msg) = RTIR::Extension::MISP::AddRTIRObjectToMISP($Ticket);
 
     push @$Actions, $msg;
