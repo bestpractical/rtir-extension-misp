@@ -212,7 +212,6 @@ sub AddRTIRObjectToMISP {
 
     my @attributes;
     foreach my $attribute ( keys %attribute_fields ) {
-        warn "for $attribute: " . $attribute_fields{$attribute};
         next unless $attribute_fields{$attribute};
         push @attributes, {
             'uuid' => create_uuid_as_string(UUID_V4),
