@@ -12,6 +12,11 @@ our @CustomFields = (
         Disabled    => 0,
         Queue       => 'Incidents',
     },
+    {   Name        => 'MISP RTIR Object ID',
+        Type        => 'FreeformSingle',
+        Disabled    => 0,
+        Queue       => 'Incidents',
+    },
 );
 
 1;
