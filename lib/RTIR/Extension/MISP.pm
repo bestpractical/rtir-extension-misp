@@ -219,7 +219,7 @@ sub AddRTIRObjectToMISP {
     $misp_data{'Attribute'} = \@attributes;
     my $json = encode_json( \%misp_data );
 
-    my $response = $ua->post($url . "/objects/add/" . $ticket->FirstCustomFieldValue("MISP Event UUID"), Content => $json);
+    my $response = $ua->post($url . "/objects/add/" . $ticket->FirstCustomFieldValue("MISP Event ID"), Content => $json);
 
     unless ( $response->is_success ) {
         RT->Logger->error('Unable to add object to event: ' . $response->status_line() . $response->decoded_content());
