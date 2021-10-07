@@ -179,6 +179,8 @@ sub AddRTIRObjectToMISP {
     my $ua = GetUserAgent();
     my $url = GetMISPBaseURL();
 
+    my $event_id = $ticket->FirstCustomFieldValue('MISP Event ID');
+
     # This is base object information defined in MISP
     # See: https://github.com/MISP/misp-objects/blob/main/objects/rtir/definition.json
     my %misp_data = (
@@ -216,12 +218,77 @@ sub AddRTIRObjectToMISP {
         }
     }
 
+    if ( my $object_id = $ticket->FirstCustomFieldValue('MISP RTIR Object ID') ) {
+        my $response = $ua->get( $url . '/objects/view/' . $object_id );
+        if ( $response->is_success ) {
+            my $content = decode_json( $response->decoded_content );
+            if ( $content->{Object}{deleted} ) {
+                RT->Logger->debug("Object $object_id has been deleted, will create a new one");
+            }
+            else {
+                my $failed;
+                for my $attribute ( @{ $content->{Object}{Attribute} } ) {
+                    next if $attribute->{deleted};
+                    my $name = $attribute->{object_relation};
+                    if ( ( $attribute_fields{$name} // '' ) ne ( $attribute->{value} // '' ) ) {
+                        my $json     = encode_json( { value => $attribute_fields{$name} } );
+                        my $response = $ua->put( $url . '/attributes/edit/' . $attribute->{id}, Content => $json );
+                        if ( $response->is_success ) {
+                            RT->Logger->debug("Updated attribute $attribute->{id}");
+                        }
+                        else {
+                            RT->Logger->error( "Unable to update attribute $attribute->{id}: "
+                                    . $response->status_line()
+                                    . $response->decoded_content() );
+                            $failed ||= 1;
+                        }
+                    }
+                    delete $attribute_fields{$name};
+                }
+
+                for my $attribute ( keys %attribute_fields ) {
+                    next unless $attribute_fields{$attribute};
+                    my ($data)   = grep { $_->{object_relation} eq $attribute } @attributes;
+                    my $json     = encode_json( { event_id => $event_id, object_id => $object_id, %$data } );
+                    my $response = $ua->post( $url . '/attributes/add/' . $event_id, Content => $json );
+                    if ( $response->is_success ) {
+                        my $content = decode_json( $response->decoded_content );
+                        RT->Logger->debug("Created attribute $content->{Attribute}{id}");
+                    }
+                    else {
+                        RT->Logger->error(
+                            "Unable to create attribute: " . $response->status_line() . $response->decoded_content() );
+                        $failed ||= 1;
+                    }
+                }
+
+                if ($failed) {
+                    return ( 0, 'MISP event update failed' );
+                }
+                else {
+                    return ( 1, 'MISP event updated' );
+                }
+            }
+        }
+        else {
+            RT->Logger->error( "Unable to get object $object_id: " . $response->status_line() . $response->decoded_content() );
+            return ( 0, 'MISP event update failed' );
+        }
+    }
+
     $misp_data{'Attribute'} = \@attributes;
     my $json = encode_json( \%misp_data );
 
-    my $response = $ua->post($url . "/objects/add/" . $ticket->FirstCustomFieldValue("MISP Event ID"), Content => $json);
+    my $response = $ua->post($url . "/objects/add/" . $event_id, Content => $json);
 
-    unless ( $response->is_success ) {
+    if ( $response->is_success ) {
+        my $content = decode_json( $response->decoded_content );
+        my ( $ret, $msg ) = $ticket->AddCustomFieldValue( Field => 'MISP RTIR Object ID', Value => $content->{Object}{id} );
+        if ( !$ret ) {
+            RT->Logger->error("Unable to update MISP RTIR Object ID to $content->{Object}{id}: $msg");
+        }
+    }
+    else {
         RT->Logger->error('Unable to add object to event: ' . $response->status_line() . $response->decoded_content());
         return (0, 'MISP event update failed');
     }
