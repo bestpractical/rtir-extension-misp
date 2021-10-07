@@ -33,6 +33,10 @@ Works with RTIR 5.0
 
 May need root permissions
 
+=item Patch RTIR for versions prior to 5.0.2
+
+    patch -p1 -d /opt/rt5/local/plugins/RT-IR < patches/Add-callbacks-to-the-feed-listing-and-display-pages.patch
+
 =item Edit your F</opt/rt4/etc/RT_SiteConfig.pm>
 
 Add this line:
