@@ -41,8 +41,8 @@
           <td class="collection-as-table align-text-top">
             <form action="<% $create_URI %>" name="CreateIncident-<% $i %>" id="CreateIncident-<% $i %>"  method="post">
               <input type="hidden" value="<% $item->{info} %>" name="Subject">
-              <input type="hidden" value="<% $item->{id} %>" name="<% GetCustomFieldInputName(CustomField => $cf_misp_id) %>">
-              <input type="hidden" value="<% $item->{uuid} %>" Name="<% GetCustomFieldInputName(CustomField => $cf_uuid) %>">
+              <input type="hidden" value="<% $item->{id} %>" name="<% 'CustomField-' . $cf_misp_id->Id %>">
+              <input type="hidden" value="<% $item->{uuid} %>" Name="<% 'CustomField-' . $cf_uuid->Id %>">
               <input type="hidden" value="<% $Lifecycle %>" Name="Lifecycle">
               <input type="submit" class="button btn btn-primary form-control" value="<&|/l&>Create new ticket</&>" />
             </form>
