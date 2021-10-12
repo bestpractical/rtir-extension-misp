@@ -336,4 +336,18 @@ sub CreateMISPEvent {
     }
 }
 
+{
+    use RT::ObjectCustomFieldValue;
+    no warnings 'redefine';
+    my $orig = \&RT::ObjectCustomFieldValue::_FillInTemplateURL;
+    *RT::ObjectCustomFieldValue::_FillInTemplateURL = sub {
+        my $self = shift;
+        my $url  = shift;
+        return undef unless defined $url && length $url;
+        my $misp_url = RT->Config->Get('ExternalFeeds')->{MISP}[0]{URI};
+        $url =~ s!__MISPURL__!$misp_url!g;
+        return $orig->( $self, $url );
+    };
+}
+
 1;
