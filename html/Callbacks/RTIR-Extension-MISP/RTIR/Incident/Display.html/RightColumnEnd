@@ -3,9 +3,17 @@
         title_href => $event_link,
         class      => 'ticket-info-cfs',
 &>
-<p>ID: <% $misp_json->{Event}{id} %></p>
-<p>UUID: <% $misp_json->{Event}{uuid} %></p>
-<p>Date: <% $misp_json->{Event}{date} %></p>
+
+% for my $field ( sort keys %info ) {
+<div class="form-row">
+  <div class="col-3 label"><% loc($field) %></div>
+  <div class="col-9 value">
+    <span class="current-value">
+      <% $info{$field} // '' %>
+    </span>
+  </div>
+</div>
+% }
 </&>
 <%init>
 my $event_id = $Ticket->FirstCustomFieldValue('MISP Event ID');
@@ -14,6 +22,20 @@ return unless $event_id;
 my $event_link = RTIR::Extension::MISP::GetMISPBaseURL() . "/events/view/$event_id";
 my $misp_json = RTIR::Extension::MISP::FetchEventDetails($event_id);
 
+my %info;
+my %threat_map = ( 1 => 'High', 2 => 'Medium', 3 => 'Low', 4 => 'Undefined' );
+$info{'Threat Level'} = $threat_map{ $misp_json->{Event}{threat_level_id} };
+
+my %analysis_map = ( 0 => 'Initial', 1 => 'Ongoing', 3 => 'Completed' );
+$info{'Analysis'} = $analysis_map{ $misp_json->{Event}{analysis} };
+
+$info{'Creator org'} = $misp_json->{Event}{Orgc}{name};
+$info{'Owner org'} = $misp_json->{Event}{Org}{name};
+$info{'Date'} = $misp_json->{Event}{date};
+$info{'Published'} = $misp_json->{Event}{published} ? 'Yes' : 'No';
+
+my $object_count = scalar @{$misp_json->{Event}{Object}};
+$info{'#Attribute'} = "$misp_json->{Event}{attribute_count}, ($object_count Objects)";
 </%init>
 <%args>
 $Ticket
