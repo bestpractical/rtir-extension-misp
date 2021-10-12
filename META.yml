@@ -20,6 +20,7 @@ no_index:
     - html
     - inc
 requires:
+  UUID::Tiny: 0
   perl: 5.10.1
 resources:
   license: http://opensource.org/licenses/gpl-license.php
