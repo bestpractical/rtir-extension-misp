@@ -8,6 +8,8 @@ use UUID::Tiny ':std';
 
 our $VERSION = '0.01';
 
+RT->AddStyleSheets('rtir-extension-misp.css');
+
 =head1 NAME
 
 RTIR-Extension-MISP - Integrate RTIR with MISP

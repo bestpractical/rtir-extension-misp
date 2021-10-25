@@ -1,7 +1,7 @@
 <&| /Widgets/TitleBox,
         title      => loc("MISP Event Details"),
         title_href => $event_link,
-        class      => 'ticket-info-cfs',
+        class      => 'ticket-info-misp',
 &>
 
 % for my $field ( sort keys %info ) {
