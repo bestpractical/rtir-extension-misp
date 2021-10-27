@@ -4,7 +4,7 @@ NAME
 DESCRIPTION
     MISP <https://www.misp-project.org/> is a platform for sharing threat
     intelligence among security teams, and this extension provides
-    integration from "https://bestpractical.com/rtir" in RTIR.
+    integration from RTIR <https://bestpractical.com/rtir>.
 
 RTIR VERSION
     Works with RTIR 5.0

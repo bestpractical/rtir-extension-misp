@@ -17,7 +17,7 @@ RTIR-Extension-MISP - Integrate RTIR with MISP
 =head1 DESCRIPTION
 
 L<MISP|https://www.misp-project.org/> is a platform for sharing threat intelligence among
-security teams, and this extension provides integration from L<RTIR/https://bestpractical.com/rtir>.
+security teams, and this extension provides integration from L<RTIR|https://bestpractical.com/rtir>.
 
 =head1 RTIR VERSION
 
