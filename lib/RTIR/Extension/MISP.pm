@@ -8,6 +8,8 @@ use UUID::Tiny ':std';
 
 our $VERSION = '0.01';
 
+RT->AddStyleSheets('rtir-extension-misp.css');
+
 =head1 NAME
 
 RTIR-Extension-MISP - Integrate RTIR with MISP
@@ -63,6 +65,8 @@ in case changes need to be made to your database.
 
 =head1 CONFIGURATION
 
+=head2 Base MISP Configuration
+
 Set the following in your C<RT_SiteConfig.pm> with details for the MISP
 instance you want RTIR to integrate with.
 
@@ -74,6 +78,23 @@ instance you want RTIR to integrate with.
                 DaysToFetch => 5,  # For the feed page, how many days back to fetch
                 ApiKeyAuth  => 'API SECRET KEY',  # Change to your real key
             },
+        ],
+    );
+
+=head2 MISP Custom Fields
+
+If you want to display the MISP ID custom fields in a separate portlet on the
+incident page, you can customize your custom field portlets with something
+like this:
+
+    Set(%CustomFieldGroupings,
+        'RTIR::Ticket' => [
+            'Networking'     => ['IP', 'Domain'],
+            'Details' => ['How Reported','Reporter Type','Customer',
+                          'Description', 'Resolution', 'Function', 'Classification',
+                          'Customer',
+                          'Netmask','Port','Where Blocked'],
+            'MISP IDs'     => ['MISP Event ID', 'MISP Event UUID'],  # Add/remove CFs as needed
         ],
     );
 
