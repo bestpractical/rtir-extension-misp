@@ -6,7 +6,7 @@ use LWP::UserAgent;
 use JSON;
 use UUID::Tiny ':std';
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 RT->AddStyleSheets('rtir-extension-misp.css');
 

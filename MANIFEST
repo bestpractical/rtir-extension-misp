@@ -7,6 +7,7 @@ html/Callbacks/RTIR-Extension-MISP/RTIR/Incident/Display.html/ProcessArguments
 html/Callbacks/RTIR-Extension-MISP/RTIR/Incident/Display.html/RightColumnEnd
 html/Callbacks/RTIR-Extension-MISP/RTIR/Tools/ExternalFeeds.html/AfterFeedsList
 html/Callbacks/RTIR-Extension-MISP/RTIR/Tools/ExternalFeeds.html/DisplayFeedContent
+html/Helpers/MISPEventDetails
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
@@ -27,3 +28,4 @@ MANIFEST			This list of files
 META.yml
 patches/Add-callbacks-to-the-feed-listing-and-display-pages.patch
 README
+static/css/rtir-extension-misp.css
