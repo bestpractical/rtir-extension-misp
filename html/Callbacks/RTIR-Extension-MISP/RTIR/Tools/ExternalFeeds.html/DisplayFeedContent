@@ -35,7 +35,7 @@
         <tr class="<% $i%2 ? 'oddline' : 'evenline'%>" >
           <td class="collection-as-table align-text-top"><% $item->{date} %></td>
           <td class="collection-as-table align-text-top"><% $item->{info} %></td>
-          <td class="collection-as-table align-text-top"><a href="https://100.26.234.31/events/view/<% $item->{id} %>" target="_New_"><% $item->{id} %></a></td>
+          <td class="collection-as-table align-text-top"><a href="<% RTIR::Extension::MISP::GetMISPBaseURL() %>/events/view/<% $item->{id} %>" target="_New_"><% $item->{id} %></a></td>
           <td class="collection-as-table align-text-top"><% $item->{creator_org} %></td>
           <td class="collection-as-table align-text-top"><% $item->{threat_level_id} %></td>
           <td class="collection-as-table align-text-top">
