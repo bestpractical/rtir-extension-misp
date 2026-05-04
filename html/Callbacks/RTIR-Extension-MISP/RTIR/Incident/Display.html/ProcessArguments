@@ -1,8 +1,23 @@
 <%init>
 if ( $ARGSRef->{CreateMISPEvent} || $ARGSRef->{UpdateMISPEvent} ) {
-    my ($ok, $msg) = RTIR::Extension::MISP::AddRTIRObjectToMISP($Ticket);
+    $m->callback(
+        CallbackName => 'BeforeMISPSync',
+        Ticket       => $Ticket,
+        Actions      => $Actions,
+        ARGSRef      => $ARGSRef,
+    );
 
+    my ($ok, $msg) = RTIR::Extension::MISP::AddRTIRObjectToMISP($Ticket);
     push @$Actions, $msg;
+
+    $m->callback(
+        CallbackName => 'AfterMISPSync',
+        Ticket       => $Ticket,
+        Actions      => $Actions,
+        ARGSRef      => $ARGSRef,
+        OK           => $ok,
+        Msg          => $msg,
+    );
 }
 </%init>
 <%args>
