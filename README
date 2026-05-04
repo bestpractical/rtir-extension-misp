@@ -97,7 +97,29 @@ DETAILS
     option to "Create MISP Event". Select this to create an event in MISP
     with details from the incident ticket.
 
-  
+  Customizing MISP Sync with Callbacks
+    When creating or updating a MISP event, this extension fires two Mason
+    callbacks that allow you to customize the data sent to and received from
+    MISP without modifying the extension itself. This can be used to push
+    additional indicators (domains, hashes, URLs from custom CFs), add
+    taxonomy tags, perform data mappings, or take action based on the result
+    of the sync.
+
+    BeforeMISPSync
+        Fires before the MISP event is created or updated. Receives $Ticket,
+        $Actions, and $ARGSRef.
+
+    AfterMISPSync
+        Fires after the MISP event is created or updated. Receives $Ticket,
+        $Actions, $ARGSRef, $OK (1 on success, 0 on failure), and $Msg (the
+        result message). The MISP Event ID is available on the ticket via
+        $Ticket->FirstCustomFieldValue('MISP Event ID').
+
+    Callback files should be placed at:
+
+        html/Callbacks/<YourPlugin>/Callbacks/RTIR-Extension-MISP/RTIR/Incident/Display.html/ProcessArguments/BeforeMISPSync
+        html/Callbacks/<YourPlugin>/Callbacks/RTIR-Extension-MISP/RTIR/Incident/Display.html/ProcessArguments/AfterMISPSync
+
 AUTHOR
     Best Practical Solutions, LLC <modules@bestpractical.com>
 
