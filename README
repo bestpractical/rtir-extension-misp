@@ -7,7 +7,7 @@ DESCRIPTION
     integration from RTIR <https://bestpractical.com/rtir>.
 
 RTIR VERSION
-    Works with RTIR 5.0
+    Works with RTIR 6.0
 
 INSTALLATION
     perl Makefile.PL
@@ -30,7 +30,7 @@ INSTALLATION
         in case changes need to be made to your database.
 
     Clear your mason cache
-            rm -rf /opt/rt4/var/mason_data/obj
+            rm -rf /opt/rt6/var/mason_data/obj
 
     Restart your webserver
 
@@ -132,8 +132,8 @@ DETAILS
 
     Callback files should be placed at:
 
-        html/Callbacks/<YourPlugin>/Ticket/Display.html/ProcessArguments/BeforeMISPSync
-        html/Callbacks/<YourPlugin>/Ticket/Display.html/ProcessArguments/AfterMISPSync
+        html/Callbacks/<YourPlugin>/RTIR/Incident/Display.html/ProcessArguments/BeforeMISPSync
+        html/Callbacks/<YourPlugin>/RTIR/Incident/Display.html/ProcessArguments/AfterMISPSync
 
 AUTHOR
     Best Practical Solutions, LLC <modules@bestpractical.com>
