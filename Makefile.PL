@@ -1,6 +1,6 @@
 use inc::Module::Install;
 
-RTx     'RTIR-Extension-MISP';
+RTx     'RTIR-Extension-MISP', { remove_files => 1 };
 license 'gpl_2';
 repository 'https://github.com/bestpractical/rtir-extension-misp';
 
