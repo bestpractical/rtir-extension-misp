@@ -3,6 +3,7 @@ Revision history for RTIR-Extension-MISP
 0.03 2026-05-04
  - Add BeforeMISPSync and AfterMISPSync Mason callbacks around MISP event
    create/update to allow customization of data sent to and received from MISP
+   (thanks to Marius Urkis <marius@urkis.lt>)
 
 0.02 2021-10-27
  - Support putting MISP ID custom fields in custom field groupings
