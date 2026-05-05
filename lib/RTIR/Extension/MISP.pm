@@ -6,7 +6,7 @@ use LWP::UserAgent;
 use JSON;
 use UUID::Tiny ':std';
 
-our $VERSION = '0.03';
+our $VERSION = '1.00';
 
 RT->AddStyleSheets('rtir-extension-misp.css');
 
@@ -38,7 +38,7 @@ security teams, and this extension provides integration from L<RTIR|https://best
 
 =head1 RTIR VERSION
 
-Works with RTIR 5.0
+Works with RTIR 6.0
 
 =head1 INSTALLATION
 
@@ -70,7 +70,7 @@ in case changes need to be made to your database.
 
 =item Clear your mason cache
 
-    rm -rf /opt/rt4/var/mason_data/obj
+    rm -rf /opt/rt6/var/mason_data/obj
 
 =item Restart your webserver
 
