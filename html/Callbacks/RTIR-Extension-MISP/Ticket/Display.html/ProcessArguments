@@ -2,6 +2,7 @@
 if ( $ARGSRef->{CreateMISPEvent} || $ARGSRef->{UpdateMISPEvent} ) {
     $m->callback(
         CallbackName => 'BeforeMISPSync',
+        CallbackPage => '/RTIR/Incident/Display.html/ProcessArguments',
         Ticket       => $Ticket,
         Actions      => $Actions,
         ARGSRef      => $ARGSRef,
@@ -12,6 +13,7 @@ if ( $ARGSRef->{CreateMISPEvent} || $ARGSRef->{UpdateMISPEvent} ) {
 
     $m->callback(
         CallbackName => 'AfterMISPSync',
+        CallbackPage => '/RTIR/Incident/Display.html/ProcessArguments',
         Ticket       => $Ticket,
         Actions      => $Actions,
         ARGSRef      => $ARGSRef,
