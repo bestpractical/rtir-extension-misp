@@ -26,7 +26,7 @@ unless ( $misp_json && ref $misp_json eq 'HASH' ) {
 }
 else {
     my %threat_map   = ( 1 => 'High', 2 => 'Medium', 3 => 'Low', 4 => 'Undefined' );
-    my %analysis_map = ( 0 => 'Initial', 1 => 'Ongoing', 3 => 'Completed' );
+    my %analysis_map = ( 0 => 'Initial', 1 => 'Ongoing', 2 => 'Completed' );
 
     $info{'Threat Level'} = $threat_map{ $misp_json->{Event}{threat_level_id} };
     $info{'Analysis'}     = $analysis_map{ $misp_json->{Event}{analysis} };
